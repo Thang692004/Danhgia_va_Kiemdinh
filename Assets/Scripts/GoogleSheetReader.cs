@@ -8,7 +8,7 @@ using TMPro;
 
 public class GoogleSheetReader : MonoBehaviour
 {
-    public string scriptUrl = "https://script.google.com/macros/s/AKfycbxzAfBlaVsUcErUZ-4hCsvrOf_pAwVUHnSJ8WMTUD2tI-AepBFOuVKv7wuXFWaijAmc5Q/exec";
+    public string scriptUrl = "https://script.google.com/macros/s/AKfycbwoXuA75OuzWUiJPZvFiReiy9YgQR5fSTphqSDblAGt/dev";
     [Header("UI")]
     public GameObject contentPanel;      // Content trong ScrollView
     public GameObject rowPrefab;         // Prefab mỗi hàng (có Horizontal Layout Group)
