@@ -21,6 +21,9 @@ public class ButtonInThongTinCaNhan : MonoBehaviour
         "ID", "Tên", "Ngày sinh", "Email", "Số điện thoại", "Bằng cấp", "Khoa", "Hệ số GV"
     };
 
+    [Header("Dữ liệu thêm ")]
+    public TMP_InputField[] addValues;
+
     private string scriptUrl => GameObject.FindObjectOfType<GoThongTinCaNhan>().scriptUrl;
     private int rowSave => GoThongTinCaNhan.rowSave;
 
@@ -91,9 +94,9 @@ public class ButtonInThongTinCaNhan : MonoBehaviour
         form.AddField("action", "add");
         form.AddField("sheet", "ThongTinGiaoVien");
 
-        for (int i = 0; i < columns.Count && i < inputFields.Length; i++)
+        for (int i = 0; i < columns.Count && i < addValues.Length; i++)
         {
-            form.AddField(columns[i], inputFields[i].text);
+            form.AddField(columns[i], addValues[i].text);
         }
 
         UnityWebRequest www = UnityWebRequest.Post(scriptUrl, form);
