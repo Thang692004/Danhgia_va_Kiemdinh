@@ -8,19 +8,22 @@ using TMPro;
 
 public class QuanlyGV : MonoBehaviour
 {
-    public string scriptUrl = "https://script.google.com/macros/s/AKfycbyxZmoDQdOFM2Et1fL_XxfNiwDa7CFEbm3ZU-ygKDcQf2wrmDZweq0vmo-6jS5JCxIiOg/exec?sheet=ThongTinGiaoVien";
+    public string scriptUrl = "https://script.google.com/macros/s/AKfycbyt9im-_FEtBE6phxykMbZVM7UZZ8idUa2JUnurwe767SNM1CxxXUl80z8DD__TLQZE6Q/exec?sheet=ThongTinGiaoVien";
 
     [Header("UI")]
     public GameObject contentPanel;
     public GameObject rowPrefab;
     public Transform headerRow;
+    public Transform valueCell;
     public List<RectTransform> columnImages = new List<RectTransform>();
     public List<string> columns = new List<string> { "ID", "Tên", "Ngày sinh", "Email", "Số điện thoại", "Bằng cấp", "Khoa", "Hệ số GV", "Salary" };
-
+    public PanelSwitcher panel;
+    public GameObject trangthongtincanhan;
     void Start()
     {
         StartCoroutine(GetData());
     }
+
 
     IEnumerator GetData()
     {
@@ -43,6 +46,7 @@ public class QuanlyGV : MonoBehaviour
                 {
                     GameObject rowObject = Instantiate(rowPrefab, contentPanel.transform); //SinhSinh
                     rowObject.transform.localScale = Vector3.one;
+                    rowObject.tag = "CloneRow";
 
                     for (int i = 0; i < columns.Count; i++)
                     {
@@ -68,6 +72,18 @@ public class QuanlyGV : MonoBehaviour
                             if (nameColumn == "ID" || nameColumn == "Tên")
                             {
                                 cell.GetComponent<Button>().enabled = true;
+                                Button btn = cell.GetComponent<Button>();
+                                if (btn != null)
+                                {
+                                    string valueSave = value;
+                                    btn.onClick.AddListener(() =>
+                                    {
+                                        DataGV.selectedValue = valueSave;
+                                        DataGV.selectedColumn = nameColumn; // lưu lại toàn bộ row
+                                        panel.ShowPanel(trangthongtincanhan);
+                                    }
+                                    );
+                                }
                             }
 
                             TextMeshProUGUI text = cell.GetComponentInChildren<TextMeshProUGUI>();
@@ -93,4 +109,25 @@ public class QuanlyGV : MonoBehaviour
             }
         }
     }
+    public void ReloadData()
+    {
+        // Dọn dẹp các row clone cũ (không xóa header)
+        ClearRows();
+
+        // Gọi lại GetData để load mới
+        StartCoroutine(GetData());
+    }
+
+    void ClearRows()
+    {
+        foreach (Transform child in contentPanel.transform)
+        {
+            if (child.CompareTag("CloneRow")) Destroy(child.gameObject); // không xóa header row
+            else continue;
+            
+        }
+    }
+
+
 }
+
