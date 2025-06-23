@@ -21,11 +21,33 @@ public class QuanLyLopHoc : MonoBehaviour
         "Giáo viên đứng lớp", "Kỳ", "Năm", "Tiền dạy"
     };
 
+    private bool hasLoaded = false;
+
     void Start()
     {
-        Debug.Log("🚀 QuanLyLopHoc đã khởi động");
-        StartCoroutine(GetData());
+        TryLoadData(); // trường hợp object đã active sẵn
     }
+
+    void OnEnable()
+    {
+        TryLoadData(); // trường hợp object vừa được bật
+    }
+
+    void TryLoadData()
+    {
+        if (!hasLoaded)
+        {
+            Debug.Log("🚀 QuanLyLopHoc bắt đầu load (lần đầu)");
+            ReloadData();
+            hasLoaded = true;
+        }
+        else
+        {
+            Debug.Log("⚠️ Trang đã load trước đó, không reload lại");
+        }
+    }
+
+
 
     IEnumerator GetData()
     {
