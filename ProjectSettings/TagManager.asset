@@ -42,3 +42,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Dropdown
+    uniqueID: 2055387387
+    locked: 0
+  - name: Danhmuc
+    uniqueID: 535253193
+    locked: 0
